@@ -1,8 +1,17 @@
-// Total line of this code is (80)
 #include<stdio.h>
 #include<math.h>
 int fixed_a,fixed_b,i=0,j,count,count1;  //Globally declaration
 float a,b,x=0,f_x,arr[50],less_or_greater_then_zero,zero,f_a,f_b;
+
+/*(user-define-function) Value of f(a) and f(b)*/
+//start
+float f_ab()
+{
+    f_a=(a*a*a)-a-11;
+    f_b=(b*b*b)-b-11;
+
+}
+//end
 
 /*(user-define-function) Calculating the equation*/
 //start
@@ -16,7 +25,7 @@ float calculating_equation()
 //start
 float formula()
 {
-    x=(a+b)/2;
+    x=((a*f_b)-(b*f_a))/(f_b-f_a);
 }
 //end
 
@@ -29,6 +38,7 @@ int two_values()
         a=calculating_equation();
         ++x;    //increase the value of 'x' , such as f(0),f(1),---,f(x)
         b=calculating_equation();
+
         if((a>0 && b<0)||(a<0 && b>0))
         {
             fixed_a=a;
@@ -47,16 +57,19 @@ int calculation_for_root()
 {
     while(1)
     {
-        x=formula();    //value of root
-        f_x=calculating_equation(); //value of f(x)
+        f_ab(); //value of f(a) and f(b)
+        formula();    //value of root (x)
+        calculating_equation(); //value of f(x)
         less_or_greater_then_zero=f_x;
         count1=0;
+
         if(f_x<0)   //if f_x is negative, then convert it to positive to check twice in next for loop
         {
             f_x=f_x*(-1);
             less_or_greater_then_zero=f_x;
             ++count1;
         }
+
         for(i; i<50; )
         {
             arr[i]=f_x;
@@ -66,8 +79,11 @@ int calculation_for_root()
             ++i;
             break;
         }
+
         if(count1!=0)    f_x=f_x*(-1);
-        printf("  %d          %.3f      %.3f       %.3f        %.3f\n",i,a,b,x,f_x);
+
+        printf("  %d          %.3f      %.3f        %.3f        %.3f       %.3f        %.3f\n",i,a,b,f_a,f_b,x,f_x);
+
         if(f_x==0  || less_or_greater_then_zero<=zero || count==1) return 0;
         else if(f_x>0)
         {
@@ -88,14 +104,14 @@ int calculation_for_root()
 int main()
 {
     two_values();   //To find two values with opposite sign
+
     printf("As f(%d) and f(%d) are opposite sign\n",(int)a,(int)b);
     printf("Therefore, the root lies between (%d,%d)\n\n",(int)a,(int)b);
-
     zero=0.001;
     printf("Assume approximately zero ~ %.3f\n\n",zero);
+    printf("Interval       a          b            f(a)         f(b)         x           f(x)\n");
+    printf("--------------------------------------------------------------------------------------\n");
 
-    printf("Interval       a          b           x           f(x)\n");
-    printf("--------------------------------------------------------\n");
     calculation_for_root(); //finding the root of the given equation
 
     printf("The root is : %.3f\n",x);
