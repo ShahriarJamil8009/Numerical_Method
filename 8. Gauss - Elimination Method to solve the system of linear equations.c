@@ -1,50 +1,57 @@
 #include<stdio.h>
 int main()
 {
-    int i,j,k,n;
-    float A[20][20],c,x[10],sum=0.0;
-    printf("\nEnter the order of matrix: ");
+    int n,i,j,k;
+    float arr[4][5],a,x[3],sum=0.0;
+
+    printf("Enter the order of matrix: ");
     scanf("%d",&n);
-    printf("\nEnter the elements of augmented matrix row-wise:\n\n");
+
+    printf("\nEnter the elements of augmented matrix row-wise:\n");
     for(i=1; i<=n; i++)
     {
         for(j=1; j<=(n+1); j++)
         {
-            printf("A[%d][%d] : ", i,j);
-            scanf("%f",&A[i][j]);
+            printf("arr[%d][%d] : ",i,j);
+            scanf("%f",&arr[i][j]);
         }
     }
-    for(j=1; j<=n; j++) /* loop for the generation of upper triangular matrix*/
+
+    //for upper triangular matrix
+    for(i=1; i<=n; i++)
     {
-        for(i=1; i<=n; i++)
+        for(j=1; j<=n; j++)
         {
             if(i>j)
             {
-                c=A[i][j]/A[j][j];
+                a=arr[i][j]/arr[j][j];
                 for(k=1; k<=n+1; k++)
                 {
-                    A[i][k]=A[i][k]-c*A[j][k];
+                    arr[i][k]=arr[i][k]-a*arr[j][k];
                 }
             }
         }
     }
-    x[n]=A[n][n+1]/A[n][n];
-    /* this loop is for backward substitution*/
+
+    //for backward substitution
+    x[n]=arr[n][n+1]/arr[n][n];
     for(i=n-1; i>=1; i--)
     {
         sum=0;
         for(j=i+1; j<=n; j++)
         {
-            sum=sum+A[i][j]*x[j];
+            sum=sum+arr[i][j]*x[j];
         }
-        x[i]=(A[i][n+1]-sum)/A[i][i];
+        x[i]=(arr[i][n+1]-sum)/arr[i][i];
     }
+
+    //showing final result
     printf("\nThe solution is: \n");
     for(i=1; i<=n; i++)
     {
-        if(i==1)    printf("\nx = %f\t",x[i]);
-        else if(i==2)    printf("\ny = %f\t",x[i]);
-        else    printf("\nz = %f\t",x[i]);
+        if(i==1)         printf("x = %.1f\n",x[i]);
+        else if(i==2)    printf("y = %.1f\n",x[i]);
+        else             printf("z = %.1f\n",x[i]);
     }
     return(0);
 }
